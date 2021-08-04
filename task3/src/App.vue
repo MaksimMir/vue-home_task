@@ -2,11 +2,12 @@
   <div id="app">
     <header>
       <h1>My personal costs</h1>
-      <Button></Button>
+      <Button @addNewPaiment="addData"></Button>
     </header>
     <div class="content">
       <payments-display :list="paymentList"></payments-display>
     </div>
+    <p class="sum">{{ getSum() }}</p>
   </div>
 </template>
 
@@ -26,28 +27,14 @@ export default {
     }
   },
   methods: {
-    fetchData() {
-      return [
-        {
-          date: '28.03.2020',
-          category: 'Food',
-          value: 169,
-        },
-        {
-          date: '24.03.2020',
-          category: 'Transport',
-          value: 360,
-        },
-        {
-          date: '24.03.2020',
-          category: 'Food',
-          value: 532,
-        },
-      ]
+    addData(newPayment) {
+      this.paymentList.push(newPayment);
+    },
+    getSum() {
+      return this.paymentList.reduce((acc, id) => {
+        return acc += +id.value;
+      }, 0)
     }
-  },
-  created() {
-    this.paymentList = this.fetchData();
   },
 }
 </script>
@@ -56,6 +43,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 #app {
@@ -71,5 +59,16 @@ h1 {
   text-align: left;
   font-size: 50px;
   font-weight: 300;
+}
+
+header {
+  position: relative;
+}
+
+.sum {
+  font-size: 20px;
+  font-weight: 500;
+  color: burlywood;
+  text-align: center;
 }
 </style>
