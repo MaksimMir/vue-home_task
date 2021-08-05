@@ -53,6 +53,7 @@ body {
   color: #2c3e50;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 10px 0;
 }
 
 h1 {
