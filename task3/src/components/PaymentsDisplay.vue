@@ -25,6 +25,7 @@ export default {
   props: {
       list: {
           type: Array,
+          default: () => []
       }
   },
   data() {
@@ -41,6 +42,7 @@ export default {
     }
 
     .list {
+        font-size: 17px;
         &-table {
             border: none;
             border-collapse: collapse;
@@ -50,7 +52,7 @@ export default {
         }
         &-item {
             padding: 30px 0;
-            width: 200px;
+            width: 150px;
             text-align: center;
             &:first-child, &:nth-child(2) {
                 text-align: left;
@@ -59,7 +61,7 @@ export default {
                 padding: 10px 0;
                 text-transform: uppercase;
                 font-weight: 700;
-                width: 200px;
+                width: 150px;
                 text-align: center;
                 &:first-child, &:nth-child(2) {
                     text-align: left;
