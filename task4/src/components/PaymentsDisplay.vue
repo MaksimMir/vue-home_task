@@ -9,7 +9,7 @@
                   <td class="list-item-header">value</td>
               </tr>
               <tr class="list-row" v-for="(item, id) in list" :key="id">
-                  <td class="list-item">{{ id + 1}}</td>
+                  <td class="list-item">{{ item.id }}</td>
                   <td class="list-item">{{ item.date }}</td>
                   <td class="list-item">{{ item.category }}</td>
                   <td class="list-item">{{ item.value }}</td>
