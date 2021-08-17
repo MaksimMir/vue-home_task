@@ -1,7 +1,6 @@
 <template>
-  <div class="btn">
-    <input @click="show = !show" type="button" value="Add New Cost   +">
-    <div class="modal" v-show="show">
+  <div class="modal">
+    <div class="modal-form">
       <form>
         <input type="text" v-model="date" placeholder="Payment Date">
         <select v-model="category">
@@ -17,13 +16,13 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex';
+
 
 export default {
   name: 'ButtonModal',
   data() {
     return {
-      show: false,
       date: '',
       category: '',
       value: '',
@@ -70,13 +69,13 @@ export default {
 
       if (data.category && data.value) {
         btn.disabled = false;
-        this.$emit('addNewPaiment', data);
+        this.$store.commit('addDataToPaymentsList', data);
       }
 
       
       this.value = '';
       this.date = '';
-    }
+    },
   },
   async created() {
     await this.fetchCategoriesList();
@@ -90,7 +89,8 @@ export default {
 </script>
 
 <style lang="sass">
-  .btn
+
+  .modal
     & input[type=button]
       background-color: #20B799
       font-size: 17px
@@ -105,14 +105,8 @@ export default {
       &:hover
         background-color: darken(#20B799, 10%) 
 
-  .modal 
+  .modal-form 
     width: 400px
-    position: absolute
-    padding: 30px
-    border: 1px solid black
-    border-radius: 5px
-    top: 160px
-    right: 40px 
     & form
       display: flex
       flex-direction: column
@@ -123,4 +117,5 @@ export default {
         border: 1px solid lighten(black, 70%)
         border-radius: 5px
         outline: none
+
 </style>

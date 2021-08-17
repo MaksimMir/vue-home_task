@@ -1,34 +1,35 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Error404 from '../views/404.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    component: () => import(/* webpackChunkName:'Home' */'../views/Home.vue')
+  },
+  {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: () => import(/* webpackChunkName:'Home' */'../views/Home.vue')
   },
   {
     path: '/home/:page',
-    component: Home
+    component: () => import(/* webpackChunkName:'Home' */'../views/Home.vue')
   },
   {
     path: '/about',
     name: 'About',
-    component: About
+    component: () => import(/* webpackChunkName:'About' */'../views/About.vue')
   },
   {
     path: '/404',
     name: '404',
-    component: Error404
+    component: () => import(/* webpackChunkName:'404' */'../views/404.vue')
   },   
   {
     path: '*',
-    component: Error404
+    component: () => import(/* webpackChunkName:'404' */'../views/404.vue')
   }
 ]
 

@@ -3,8 +3,10 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import modal from './plugins/ModalWindow'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.use(modal);
 
 new Vue({
   router,

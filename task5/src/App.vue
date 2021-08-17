@@ -6,21 +6,46 @@
       <router-link to="/404">404</router-link>
     </div>
     <router-view/>
+    <transition name="fade">
+      <modal-window v-if="show" :showSettings="showSettings"></modal-window>
+    </transition>
   </div>
 </template>
 
 <script>
+
 export default {
+  components: { 
+    ModalWindow: () => import('./components/ModalWindow.vue')
+  },
   name: 'App',
   data() {
     return {
-      page: ''
+      page: '',
+      show: false,
+      showSettings: {}
     }
   },
   methods: {
     setPage() {
       this.page = location.pathname.slice(1);
+    },
+    onShow(settings) {
+      this.show = settings.name;
+      this.showSettings = settings;
+    },
+    onHide() {
+      this.show = '';
+      this.showSettings = {};
     }
+  },
+  mounted() {
+    this.$modal.EventBus.$on('shown', this.onShow);
+    this.$modal.EventBus.$on('hide', this.onHide);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off('shown', this.onShow);
+    this.$modal.EventBus.$off('hide', this.onHide);
   },
 }
 </script>
@@ -52,13 +77,6 @@ header {
   position: relative;
 }
 
-.sum {
-  font-size: 20px;
-  font-weight: 500;
-  color: burlywood;
-  text-align: center;
-}
-
 #nav {
   padding: 30px;
 
@@ -70,5 +88,13 @@ header {
       color: #42b983;
     }
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .7s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

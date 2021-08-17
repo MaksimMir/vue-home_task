@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     paymentList: [],
-    options: []
+    options: ['Sport', 'Food', 'Education', 'Internet', 'Games', 'Others']
   },
   mutations: {
     setPaymentListData(state, payload) {
@@ -17,7 +17,10 @@ export default new Vuex.Store({
     },
     setCategoriesListData(state, payload) {
       state.options = payload;
-    }
+    },
+    addCategoryToList(state, payload) {
+      state.options.push(payload);
+  }
   },
   getters: {
     getPaymentList: state => state.paymentList,
@@ -32,10 +35,12 @@ export default new Vuex.Store({
       return new Promise((res) => {
         setTimeout(() => {
           const item = [];
+          const max = this.state.options.length;
           for (let i = 0; i < 20; i++) {
+            const n = Math.floor(Math.random() * max);
             item.push({
               date: '31.01.2021',
-              category: 'Sport',
+              category: this.state.options[n],
               value: +Math.floor(Math.random() * 1000),
               id: i + 1
             })
@@ -48,8 +53,7 @@ export default new Vuex.Store({
     fetchCategoriesList({commit}) {
       return new Promise((res) => {
         setTimeout(() => {
-          const options = ['Sport', 'Food', 'Education', 'Internet', 'Games', 'Others'];
-          res(options);
+          res(this.state.options);
         }, 1000)
       })
       .then(res => commit('setCategoriesListData', res));
