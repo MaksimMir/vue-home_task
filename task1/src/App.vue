@@ -4,19 +4,22 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>
 
     <Calculator></Calculator>
+    <test-component></test-component>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
 import Calculator from './components/Calculator.vue';
+import TestComponent from './test/TestComponent.vue';
 
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    Calculator
+    Calculator,
+    TestComponent
   }
 }
 </script>

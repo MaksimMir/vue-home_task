@@ -5,36 +5,65 @@
       <button-modal @addNewPaiment="addData"></button-modal>
     </header>
     <div class="content">
-      <payments-display :list="paymentList"></payments-display>
+      <payments-display :list="currentPages"></payments-display>
+      <pagination @changePage="onChange" :length="getPaymentList.length" :current="page" :number="number">
+      </pagination>
     </div>
-    <p class="sum">{{ getSum() }}</p>
+    <p class="sum">{{ getSum }}</p>
   </div>
 </template>
 
 <script>
-import ButtonModal from './components/ButtonModal.vue'
-import PaymentsDisplay from './components/PaymentsDisplay.vue'
+import { mapMutations, mapGetters, mapActions } from 'vuex';
+import ButtonModal from './components/ButtonModal.vue';
+import PaymentsDisplay from './components/PaymentsDisplay.vue';
+import Pagination from './components/Pagination.vue';
 
 export default {
   name: 'App',
   components: {
     ButtonModal,
-    PaymentsDisplay
+    PaymentsDisplay,
+    Pagination
   },
   data() {
     return {
-      paymentList: []
+      page: 1,
+      number: 5
     }
   },
   methods: {
+    ...mapMutations([
+      'setPaymentListData',
+      'addDataToPaymentsList'
+    ]),
+    ...mapActions([
+      'fetchData'
+    ]),
     addData(newPayment) {
-      this.paymentList.push(newPayment);
+      this.addDataToPaymentsList(newPayment);
     },
-    getSum() {
-      return this.paymentList.reduce((acc, id) => {
-        return acc += +id.value;
-      }, 0)
+    onChange(p) {
+      this.page = p;
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getPaymentList'
+    ]),
+    getSum() {
+      return this.$store.getters.getFullPay;
+    },
+    currentPages() {
+      const { page, number } = this;
+      return this.getPaymentList.slice(number * (page - 1), number * (page - 1) + number);
+    }
+  },
+  created() {
+    // this.$store.commit('setPaymentListData', this.fetchData)
+    // this.setPaymentListData(this.fetchData());
+    // this.$store.dispatch('fetchData');
+    this.fetchData();
   },
 }
 </script>
