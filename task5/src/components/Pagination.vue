@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div>
       <button @click="onClick(current - 1)">&#129044;</button>
       <button @click="onClick(page)" v-for="page in amaunt" :key="page">
           {{ page }}
@@ -42,22 +42,6 @@ export default {
 </script>
 
 <style lang="scss">
-.pagination {
-    margin: 20px 0;
-    padding: 10px 0;
-    & button {
-        margin-right: 5px;
-        background-color: #20B799;
-        font-size: 17px;
-        font-weight: 700;
-        text-transform: uppercase;
-        border: 1px solid #20B799;
-        border-radius: 3px;
-        outline: none;
-        padding: 10px 30px;
-        color: white;
-        cursor: pointer;
-    }
-}
+
 
 </style>

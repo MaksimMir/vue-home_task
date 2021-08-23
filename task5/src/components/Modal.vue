@@ -1,18 +1,11 @@
-<template>
-  <div class="modal">
-    <div class="modal-form">
-      <form>
-        <input type="text" v-model="date" placeholder="Payment Date">
-        <select v-model="category">
-          <option v-for="opt in options" :key="opt" :value="opt">
-            {{ opt }}
-          </option>
-        </select>
-        <input type="number" v-model.number="value" placeholder="Payment Amount">
-        <input @click="onSave" type="button" value="Add  +">
-      </form>
-    </div>
-  </div>
+<template> 
+  <v-form>
+      <v-text-field v-model="date" label="Payment Date" required></v-text-field>
+      <v-select :items="options" required></v-select>
+      <v-text-field v-model.number="value" label="Payment Amount" required></v-text-field>
+      <v-btn color="teal" dark block @click="onSave">Add +</v-btn>
+  </v-form>
+
 </template>
 
 <script>
@@ -58,8 +51,6 @@ export default {
       'fetchCategoriesList'
     ]),
     onSave() {
-      const btn = document.querySelector('input[type=button]');
-      btn.disabled = true;
       const {category, value} = this;
       const data = {
         date: this.date || this.getCurrentDate,
@@ -68,7 +59,7 @@ export default {
       };
 
       if (data.category && data.value) {
-        btn.disabled = false;
+
         this.$store.commit('addDataToPaymentsList', data);
       }
 
