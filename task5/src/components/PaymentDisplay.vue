@@ -1,22 +1,98 @@
 <template>
-  <div class="display">
-      <div class="list">
-          <table class="list-table">
-              <tr class="list-row">
-                  <td class="list-item-header">id</td>
-                  <td class="list-item-header">date</td>
-                  <td class="list-item-header">category</td>
-                  <td class="list-item-header">value</td>
-              </tr>
-              <tr class="list-row" v-for="(item, id) in list" :key="id">
-                  <td class="list-item">{{ item.id }}</td>
-                  <td class="list-item">{{ item.date }}</td>
-                  <td class="list-item">{{ item.category }}</td>
-                  <td class="list-item">{{ item.value }}</td>
-              </tr>
-          </table>
-      </div>
-  </div>
+<div>
+    <v-data-table
+    :headers="headers"
+    :items="list"
+    class="my-5"
+    hide-default-footer
+    >
+    <template v-slot:top>
+        <v-dialog
+        v-model="dialog"
+        max-width="500px"
+        >
+            <v-card>
+                <v-card-title>
+                    <span class="text-h5">Edit Item</span>
+                </v-card-title>
+
+                <v-card-text>
+                    <v-container>
+                        <v-row>
+                        <v-col cols="12">
+                            <v-text-field
+                            v-model="editedItem.date"
+                            label="Date"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field
+                            v-model="editedItem.category"
+                            label="Category"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field
+                            v-model="editedItem.value"
+                            label="Value"
+                            ></v-text-field>
+                        </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="teal"
+                    dark
+                    text
+                    @click="close"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    color="teal"
+                    dark
+                    text
+                    @click="save"
+                >
+                    Save
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+                <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="teal" dark text @click="closeDelete">Cancel</v-btn>
+                <v-btn color="teal" dark text @click="deleteItemConfirm">OK</v-btn>
+                <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+
+        </template>
+        <template v-slot:item.actions="{ item }">
+        <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+        >
+            mdi-pencil
+        </v-icon>
+        <v-icon
+            small
+            @click="deleteItem(item)"
+        >
+            mdi-delete
+        </v-icon>
+        </template>
+    </v-data-table>
+
+</div>
 </template>
 
 <script>
@@ -26,50 +102,84 @@ export default {
       list: {
           type: Array,
           default: () => []
-      }
-  },
-  data() {
-    return {
-      
-    }
-  },
+      },
+      current: Number,
+      length: Number,
+      number: {
+          type: Number,
+          default: 5
+      },  
+    },
+    data: () => ({
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        { text: '#', align: 'start', sortable: true, value: 'id' },
+        { text: 'date', value: 'date' },
+        { text: 'category', value: 'category' },
+        { text: 'value', value: 'value' },
+        { text: 'actions', value: 'actions', sortable: false },
+      ],
+      editedIndex: -1,
+      editedItem: {
+        id: 0,
+        date: '',
+        category: '',
+        value: 0,
+      },
+      defaultItem: {
+        id: 0,
+        date: '',
+        category: '',
+        value: 0,
+      },
+    }),
   methods: {
-
+    editItem (item) {
+        this.editedIndex = this.list.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+    },
+    deleteItem (item) {
+        this.editedIndex = this.list.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+    },
+    deleteItemConfirm () {
+        this.list.splice(this.editedIndex, 1)
+        this.closeDelete()
+    },
+    close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+    },
+    closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+    },
+    save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.list[this.editedIndex], this.editedItem)
+        } else {
+          this.list.push(this.editedItem)
+        }
+        this.close()
+    },
+  },
+  watch: {
+    dialog (val) {
+        val || this.close()
+    },
+    dialogDelete (val) {
+        val || this.closeDelete()
+    },
   },
 }
 </script>
 
-<style lang="scss">
-    .display {
-        margin: 30px 0;
-    }
-
-    .list {
-        font-size: 17px;
-        &-table {
-            border: none;
-            border-collapse: collapse;
-        }
-        &-row {
-            border-bottom: 1px solid #a1a1a1;
-        }
-        &-item {
-            padding: 30px 0;
-            width: 150px;
-            text-align: center;
-            &:first-child, &:nth-child(2) {
-                text-align: left;
-            }
-            &-header {
-                padding: 10px 0;
-                text-transform: uppercase;
-                font-weight: 700;
-                width: 150px;
-                text-align: center;
-                &:first-child, &:nth-child(2) {
-                    text-align: left;
-            }
-            }
-        }
-    }
-</style>

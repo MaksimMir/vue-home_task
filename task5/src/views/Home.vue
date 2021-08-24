@@ -1,27 +1,43 @@
 <template>
-  <div class="home">
-    <header>
-      <h1>My personal costs</h1>
-      <input class="btn" @click="showWindow()" type="button" value="Add New Cost   +">
-      <input class="btn" @click="showWindowCategory()" type="button" value="Add New Category   +">
-    </header>
+  <v-container>
+    <v-row>
+      <v-col cols="8">
+        <p class="text-h3 mb-5">My personal costs</p>
 
-    <div class="content">
-      <payments-display :list="currentPages"></payments-display>
-      <pagination @changePage="onChange" :length="getPaymentList.length" :current="page" :number="number">
-      </pagination>
-    </div>
-  </div>
+            <v-btn class="mr-5" color="teal" dark @click="showWindow()">
+              Add New Cost
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-btn color="teal" dark @click="showWindowCategory()">
+              Add New Category 
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>      
+
+        <payments-display :list="currentPages"></payments-display>
+
+        <v-pagination
+        v-model="page"
+        :length="getPaymentList.length / number"
+        color="teal"
+        ></v-pagination>
+      </v-col>
+      <v-col cols="4">
+        <p class="text-h3">Chart</p>
+      </v-col>
+    </v-row>
+
+
+  </v-container>
 </template>
 
 <script>
 import { mapMutations, mapGetters, mapActions } from 'vuex';
 import PaymentsDisplay from '../components/PaymentDisplay.vue'
-import Pagination from '../components/Pagination.vue'
+// import Pagination from '../components/Pagination.vue'
 
 
 export default {
-  components: { PaymentsDisplay, Pagination },
+  components: { PaymentsDisplay },
   name: 'Home',
   data() {
     return {
@@ -65,21 +81,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    .btn {
-      margin-right: 10px;
-      background-color: #20B799;
-      font-size: 17px;
-      font-weight: 700;
-      text-transform: uppercase;
-      border: 1px solid #20B799;
-      border-radius: 3px;
-      outline: none;
-      padding: 10px 30px;
-      color: white;
-      cursor: pointer;
-      &:hover {
-        background-color: darken(#20B799, 10%);
-      }
-    }
-</style>
+

@@ -1,15 +1,22 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/404">404</router-link>
-    </div>
-    <router-view/>
-    <transition name="fade">
-      <modal-window v-if="show" :showSettings="showSettings"></modal-window>
-    </transition>
-  </div>
+  
+    <v-app>
+      <v-app-bar app color="teal" dark flat>
+        <v-container>
+          <v-btn plain :ripple="false" to="/home">Home</v-btn> 
+          <v-btn plain :ripple="false" to="/about">About</v-btn>
+        </v-container>     
+      </v-app-bar>
+
+      <v-main>
+        <v-container fluid>
+          <router-view/>
+          <v-dialog max-width="470px" v-model="show">
+            <modal-window :showSettings="showSettings"></modal-window>
+          </v-dialog>
+        </v-container>
+      </v-main>
+    </v-app>
 </template>
 
 <script>
@@ -50,51 +57,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-h1 {
-  text-align: left;
-  font-size: 50px;
-  font-weight: 300;
-}
-
-header {
-  position: relative;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .7s;
-}
-
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>

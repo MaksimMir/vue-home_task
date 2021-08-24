@@ -1,15 +1,17 @@
 <template>
-    <div class="window">
-        <p class="header">
+    <v-card>
+        <v-card-title class="text-h5">
             {{ showSettings.header }}
-        </p>
-        <div class="content">
+        </v-card-title>
+        <v-card-text>
             <component :is="showSettings.name"></component>
-        </div>
-        <div class="footer">
-            <button @click="onClose()" class="btn">Close</button>
-        </div>
-    </div>   
+        </v-card-text>
+        <v-spacer></v-spacer>
+        <v-card-actions>
+            <v-btn color="teal" dark @click="onClose()">Close</v-btn>
+        </v-card-actions>
+    </v-card>  
+
 </template>
 
 <script>
@@ -21,6 +23,11 @@ import ModalForm from './Modal.vue'
 export default {
   name: 'ModalWindow',
   components: { ModalForm, Auth, AddCategory },
+  data() {
+    return {
+      show: false
+    }
+  },
   props: {
     showSettings: Object
   },
@@ -39,30 +46,3 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
-    .window {
-        position: absolute;
-        top: 200px;
-        right: 50px;
-        padding: 30px;
-        border: 1px solid black;
-        border-radius: 5px;
-        background-color: rgb(255, 252, 247);
-    }
-
-    .btn {
-      background-color: #20B799;
-      font-size: 17px;
-      font-weight: 700;
-      text-transform: uppercase;
-      border: 1px solid #20B799;
-      border-radius: 3px;
-      outline: none;
-      padding: 10px 30px;
-      color: white;
-      cursor: pointer;
-      &:hover {
-        background-color: darken(#20B799, 10%);
-      }
-    }
-</style>

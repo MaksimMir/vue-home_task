@@ -1,18 +1,10 @@
 <template>
-  <div class="modal">
-    <div class="modal-form">
-      <form>
-        <input type="text" v-model="date" placeholder="Payment Date">
-        <select v-model="category">
-          <option v-for="opt in options" :key="opt" :value="opt">
-            {{ opt }}
-          </option>
-        </select>
-        <input type="number" v-model.number="value" placeholder="Payment Amount">
-        <input @click="onSave" type="button" value="Add  +">
-      </form>
-    </div>
-  </div>
+  <v-form>
+    <v-text-field v-model="date" label="Payment Date" required></v-text-field>
+    <v-select v-model="category" :items="options" label="Category" required></v-select>
+    <v-text-field v-model.number="value" label="Payment Amount" required></v-text-field>
+    <v-btn color="teal" dark @click="onSave">Add</v-btn>
+  </v-form>
 </template>
 
 <script>
@@ -50,7 +42,7 @@ export default {
       return `${day}.${month}.${year}`;
     },
     options() {
-      return this.$store.getters.getCategories
+      return this.$store.getters.getCategories;
     }
   },
   methods: {
@@ -58,8 +50,6 @@ export default {
       'fetchCategoriesList'
     ]),
     onSave() {
-      const btn = document.querySelector('input[type=button]');
-      btn.disabled = true;
       const {category, value} = this;
       const data = {
         date: this.date || this.getCurrentDate,
@@ -68,7 +58,6 @@ export default {
       };
 
       if (data.category && data.value) {
-        btn.disabled = false;
         this.$store.commit('addDataToPaymentsList', data);
       }
 
@@ -87,35 +76,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass">
-
-  .modal
-    & input[type=button]
-      background-color: #20B799
-      font-size: 17px
-      font-weight: 700
-      text-transform: uppercase
-      border: 1px solid #20B799
-      border-radius: 3px
-      outline: none
-      padding: 10px 30px
-      color: white
-      cursor: pointer
-      &:hover
-        background-color: darken(#20B799, 10%) 
-
-  .modal-form 
-    width: 400px
-    & form
-      display: flex
-      flex-direction: column
-      & input, & select 
-        padding: 10px 20px
-        margin-bottom: 20px
-        font-size: 17px
-        border: 1px solid lighten(black, 70%)
-        border-radius: 5px
-        outline: none
-
-</style>
