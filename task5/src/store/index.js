@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     paymentList: [],
-    options: []
+    options: ['Sport', 'Food', 'Education', 'Internet', 'Games', 'Others']
   },
   mutations: {
     setPaymentListData(state, payload) {
@@ -17,44 +17,48 @@ export default new Vuex.Store({
     },
     setCategoriesListData(state, payload) {
       state.options = payload;
-    }
+    },
+    addCategoryToList(state, payload) {
+      state.options.push(payload);
+  }
   },
   getters: {
     getPaymentList: state => state.paymentList,
     getFullPay: state => {
-      return state.paymentList.reduce((acc, val) => acc += val.value, 0)
+      const obj = {};
+      for (let i = 0; i < state.options.length; i++) {
+          let sum = 0;
+          for (let j = 0; j < state.paymentList.length; j++) {
+              if (state.options[i] == state.paymentList[j].category) {
+                  sum += +state.paymentList[j].value;
+              }
+              
+          }
+          obj[state.options[i]] = sum
+      }
+
+      return obj;
     },
     getCategories: state => state.options
   },
   actions: {
     fetchData({commit}) {
       if (this.state.paymentList.length) return;
-      return new Promise((res) => {
-        setTimeout(() => {
-          const item = [];
-          for (let i = 0; i < 20; i++) {
-            item.push({
-              date: '31.01.2021',
-              category: 'Sport',
-              value: +Math.floor(Math.random() * 1000),
-              id: i + 1
-            })
-          }
-          res(item);
-        }, 1000)
-      })
-      .then(res => commit('setPaymentListData', res));
+      const item = [];
+
+      for (let i = 0; i < localStorage.length; i++) {            
+        item.push(JSON.parse(localStorage.getItem(i)))
+      }
+      return commit('setPaymentListData', item)
     },
     fetchCategoriesList({commit}) {
       return new Promise((res) => {
         setTimeout(() => {
-          const options = ['Sport', 'Food', 'Education', 'Internet', 'Games', 'Others'];
-          res(options);
+          res(this.state.options);
         }, 1000)
       })
       .then(res => commit('setCategoriesListData', res));
     }
-  },
-  modules: {
   }
 })
+

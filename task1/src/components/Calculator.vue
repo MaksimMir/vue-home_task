@@ -1,13 +1,13 @@
 <template>
   <div class="calc">
       <div>
-            <input type="number" v-model="first_number">
-            <button @click="sum()">+</button>
-            <button @click="dev()">-</button>
-            <button @click="mul()">*</button>
-            <button @click="def()">/</button>
-            <button @click="exp()">num<sup>*</sup></button>
-            <input type="number" v-model="second_number">
+            <input type="number" name="op1" v-model.number="first_number">
+            <button class="sum" @click="sum()">+</button>
+            <button class="dev" @click="dev()">-</button>
+            <button class="mul" @click="mul()">*</button>
+            <button class="def" @click="def()">/</button>
+            <button class="exp" @click="exp()">num<sup>*</sup></button>
+            <input type="number" name="op2" v-model.number="second_number">
       </div>
 
       <span>{{ result }}</span>

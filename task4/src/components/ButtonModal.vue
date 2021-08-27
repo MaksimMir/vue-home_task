@@ -4,7 +4,11 @@
     <div class="modal" v-show="show">
       <form>
         <input type="text" v-model="date" placeholder="Payment Date">
-        <input type="text" v-model="category" placeholder="Payment Description">
+        <select v-model="category">
+          <option v-for="opt in options" :key="opt" :value="opt">
+            {{ opt }}
+          </option>
+        </select>
         <input type="number" v-model.number="value" placeholder="Payment Amount">
         <input @click="onSave" type="button" value="Add  +">
       </form>
@@ -13,6 +17,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
 export default {
   name: 'ButtonModal',
   data() {
@@ -20,7 +26,7 @@ export default {
       show: false,
       date: '',
       category: '',
-      value: ''
+      value: '',
     }
   },
   computed: {
@@ -39,9 +45,15 @@ export default {
       year = today.getFullYear();
 
       return `${day}.${month}.${year}`;
+    },
+    options() {
+      return this.$store.getters.getCategories
     }
   },
   methods: {
+    ...mapActions([
+      'fetchCategoriesList'
+    ]),
     onSave() {
       const {category, value} = this;
       const data = {
@@ -52,9 +64,11 @@ export default {
 
       this.$emit('addNewPaiment', data);
       this.value = '';
-      this.category = '';
       this.date = '';
     }
+  },
+  created() {
+    this.fetchCategoriesList();
   },
 }
 </script>
@@ -86,7 +100,7 @@ export default {
     & form
       display: flex
       flex-direction: column
-      & input 
+      & input, & select 
         padding: 10px 20px
         margin-bottom: 20px
         font-size: 17px
