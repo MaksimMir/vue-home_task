@@ -50,14 +50,17 @@ export default {
       'fetchCategoriesList'
     ]),
     onSave() {
+      const id = localStorage.length - 1
       const {category, value} = this;
       const data = {
         date: this.date || this.getCurrentDate,
         category,
-        value
+        value,
+        id
       };
 
       if (data.category && data.value) {
+        localStorage.setItem(id, JSON.stringify(data))
         this.$store.commit('addDataToPaymentsList', data);
       }
 

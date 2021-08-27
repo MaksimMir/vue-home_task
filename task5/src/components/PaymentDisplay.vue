@@ -5,6 +5,9 @@
     :items="list"
     class="my-5"
     hide-default-footer
+    :page.sync="page"
+    :items-per-page="number"
+    @page-count="pageCount = $event"
     >
     <template v-slot:top>
         <v-dialog
@@ -91,7 +94,13 @@
         </v-icon>
         </template>
     </v-data-table>
-
+    <div>
+        <v-pagination
+        v-model="page"
+        :length="pageCount"
+        color="teal"
+        ></v-pagination>
+    </div>
 </div>
 </template>
 
@@ -101,16 +110,13 @@ export default {
   props: {
       list: {
           type: Array,
-          default: () => []
-      },
-      current: Number,
-      length: Number,
-      number: {
-          type: Number,
-          default: 5
-      },  
+          default: () => [],
+      }, 
     },
     data: () => ({
+        page: 1,
+        number: 5,
+        pageCount: 0,
       dialog: false,
       dialogDelete: false,
       headers: [
@@ -128,7 +134,7 @@ export default {
         value: 0,
       },
       defaultItem: {
-        id: 0,
+        id: 1,
         date: '',
         category: '',
         value: 0,

@@ -13,16 +13,12 @@
               <v-icon>mdi-plus</v-icon>
             </v-btn>      
 
-        <payments-display :list="currentPages"></payments-display>
+        <payments-display :list="getPaymentList"></payments-display>
 
-        <v-pagination
-        v-model="page"
-        :length="getPaymentList.length / number"
-        color="teal"
-        ></v-pagination>
       </v-col>
       <v-col cols="4">
         <p class="text-h3">Chart</p>
+        <chart-costs></chart-costs>
       </v-col>
     </v-row>
 
@@ -31,31 +27,22 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import PaymentsDisplay from '../components/PaymentDisplay.vue'
-// import Pagination from '../components/Pagination.vue'
+import ChartCosts from '../components/Chart.vue'
 
 
 export default {
-  components: { PaymentsDisplay },
+  components: { PaymentsDisplay, ChartCosts },
   name: 'Home',
   data() {
     return {
-      page: 1,
-      number: 5,
     }
   },
   methods: {
-    ...mapMutations([
-      'setPaymentListData',
-      'addDataToPaymentsList'
-    ]),
     ...mapActions([
       'fetchData'
     ]),
-    onChange(p) {
-      this.page = p;
-    },
     showWindow() {
       this.$modal.show('modalForm', {header: 'Add Payment Form'});
     },
@@ -67,16 +54,9 @@ export default {
     ...mapGetters([
       'getPaymentList'
     ]),
-    currentPages() {
-      const { page, number } = this;
-      return this.getPaymentList.slice(number * (page - 1), number * (page - 1) + number);
-    }
   },
-  async created() {
-    await this.fetchData();
-  },
-  mounted() {
-
+  created() {
+    this.fetchData();
   },
 }
 </script>

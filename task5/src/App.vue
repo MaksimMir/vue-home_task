@@ -20,7 +20,7 @@
 </template>
 
 <script>
-
+import db from './data/database.json'
 export default {
   components: { 
     ModalWindow: () => import('./components/ModalWindow.vue')
@@ -53,6 +53,12 @@ export default {
   beforeDestroy() {
     this.$modal.EventBus.$off('shown', this.onShow);
     this.$modal.EventBus.$off('hide', this.onHide);
+  },
+  beforeMount() {
+    localStorage.clear();
+    db.forEach((el, id) => {
+      localStorage.setItem(id, JSON.stringify(el))
+    });
   },
 }
 </script>

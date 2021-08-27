@@ -1,0 +1,80 @@
+[
+    {
+        "id": 0,
+        "date": "31.01.1989",
+        "category": "Internet",
+        "value": 1000
+    },
+    {
+        "id": 1,
+        "date": "31.11.1989",
+        "category": "Games",
+        "value": 103
+    },
+    {
+        "id": 2,
+        "date": "31.01.1989",
+        "category": "Others",
+        "value": 1000
+    },
+    {
+        "id": 3,
+        "date": "31.11.1989",
+        "category": "Sport",
+        "value": 103
+    },
+    {
+        "id": 4,
+        "date": "31.11.1989",
+        "category": "Games",
+        "value": 1203
+    },
+    {
+        "id": 5,
+        "date": "31.01.1989",
+        "category": "Education",
+        "value": 300
+    },
+    {
+        "id": 6,
+        "date": "31.11.1989",
+        "category": "Sport",
+        "value": 609
+    },
+    {
+        "id": 7,
+        "date": "31.11.1989",
+        "category": "Internet",
+        "value": 45
+    },
+    {
+        "id": 8,
+        "date": "31.11.1989",
+        "category": "Games",
+        "value": 176
+    },
+    {
+        "id": 9,
+        "date": "31.01.1989",
+        "category": "Education",
+        "value": 309
+    },
+    {
+        "id": 10,
+        "date": "31.11.1989",
+        "category": "Sport",
+        "value": 478
+    },
+    {
+        "id": 11,
+        "date": "31.01.1989",
+        "category": "Food",
+        "value": 309
+    },
+    {
+        "id": 12,
+        "date": "31.11.1989",
+        "category": "Food",
+        "value": 178
+    }
+]

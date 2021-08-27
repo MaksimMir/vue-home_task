@@ -1,17 +1,9 @@
 <template>
-  <div class="error404">
-    <p>404</p>
-  </div>
+  <v-container>
+    <v-row class="justify-center">
+      <v-col cols="2">
+        <div class="text-h1 text-center">404</div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
-<style lang="scss" scoped>
-.error404 {
-    font-size: 200px;
-    font-weight: 400;
-    color: cadetblue;
-    & p {
-      width: 350px;
-      margin: 70px auto;
-    }
-}
-</style>
